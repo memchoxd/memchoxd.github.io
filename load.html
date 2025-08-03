@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MemChoXD's Profile</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="load.css" />
+    <script src="discord-status.js"></script>
+
+    <!-- Security script removed to fix Discord functionality -->
+
+    <script>
+      // Kiểm tra nếu người dùng nhấn F5 (tức là reload trang)
+      if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+        window.location.href = "index.html"; // Quay về index.html
+      }
+
+      // Dark mode functionality
+      function toggleTheme() {
+        const body = document.body;
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        
+        if (body.getAttribute('data-theme') === 'dark') {
+          body.setAttribute('data-theme', 'light');
+          themeIcon.className = 'fas fa-moon';
+          themeText.textContent = 'Dark Mode';
+          localStorage.setItem('theme', 'light');
+        } else {
+          body.setAttribute('data-theme', 'dark');
+          themeIcon.className = 'fas fa-sun';
+          themeText.textContent = 'Light Mode';
+          localStorage.setItem('theme', 'dark');
+        }
+      }
+
+      // Load saved theme on page load
+      function loadTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        const body = document.body;
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+        
+        body.setAttribute('data-theme', savedTheme);
+        
+        if (savedTheme === 'dark') {
+          themeIcon.className = 'fas fa-sun';
+          themeText.textContent = 'Light Mode';
+        } else {
+          themeIcon.className = 'fas fa-moon';
+          themeText.textContent = 'Dark Mode';
+        }
+      }
+
+      // Tạo hiệu ứng hiển thị lần lượt các phần tử khi trang tải xong
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load theme first
+        loadTheme();
+        
+        // Thêm class loaded cho body để tạo hiệu ứng fade in tổng thể
+        setTimeout(function () {
+          document.body.classList.add("loaded");
+        }, 100);
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Dark Mode Toggle Button -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <i class="fas fa-moon" id="theme-icon"></i>
+      <span id="theme-text">Dark Mode</span>
+    </div>
+
+    <div class="container">
+      <div class="profile-card">
+        <div class="cover-photo">
+          <img src="./png/dep.gif" alt="Cover Photo" />
+        </div>
+        <div class="profile-info">
+          <div class="avatar" id="mainAvatar">
+            <img
+              class="avatar-img"
+              alt="Discord Avatar"
+              id="mainAvatarImg"
+            />
+            <div class="status-indicator" id="mainStatusIndicator"></div>
+            <img
+              class="frame"
+              alt="Frame Decoration"
+              id="mainFrame"
+            />
+          </div>
+          <div class="name-bio">
+            <h1>MemChoXD </h1>
+            <p></> Developer </p>
+            <p><i class="fas fa-map-marker-alt"></i> Việt Nam</p>
+          </div>
+
+          <!-- Discord Status Card -->
+          <div
+            class="discord-status"
+            id="discordStatus"
+            style="margin-top: 20px"
+          >
+            <div class="loading-status">
+              <i class="fab fa-discord"></i> Đang tải Discord status...
+            </div>
+          </div>
+
+        <div class="player">
+            <div class="track-info">Hazy Moon Jumpstyle (PHXKHXNG, ICEDMANE, DYSMANE)</div>
+            <div class="controls">
+              <div class="time" id="current">00:00</div>
+              <input type="range" id="progress" value="0" />
+              <div class="time" id="duration">00:00</div>
+              <div class="buttons">
+                <button id="prev">⏮</button>
+                <button id="play">▶</button>
+                <button id="next">⏭</button>
+              </div>
+            </div>
+          </div>
+        
+        <audio id="audio" src="mp3/nhac.mp3"></audio>
+
+        <script>
+          const audio = document.getElementById("audio");
+          const playBtn = document.getElementById("play");
+          const prevBtn = document.getElementById("prev");
+          const nextBtn = document.getElementById("next");
+          const progress = document.getElementById("progress");
+          const current = document.getElementById("current");
+          const duration = document.getElementById("duration");
+
+          function formatTime(seconds) {
+            const m = Math.floor(seconds / 60)
+              .toString()
+              .padStart(2, "0");
+            const s = Math.floor(seconds % 60)
+              .toString()
+              .padStart(2, "0");
+            return `${m}:${s}`;
+          }
+
+          audio.addEventListener("loadedmetadata", () => {
+            duration.textContent = formatTime(audio.duration);
+            progress.max = audio.duration;
+          });
+
+          audio.addEventListener("timeupdate", () => {
+            progress.value = audio.currentTime;
+            current.textContent = formatTime(audio.currentTime);
+          });
+
+          progress.addEventListener("input", () => {
+            audio.currentTime = progress.value;
+          });
+
+          playBtn.addEventListener("click", () => {
+            if (audio.paused) {
+              audio.play();
+              playBtn.textContent = "⏸";
+            } else {
+              audio.pause();
+              playBtn.textContent = "▶";
+            }
+          });
+
+          prevBtn.addEventListener("click", () => {
+            audio.currentTime = 0;
+          });
+
+          nextBtn.addEventListener("click", () => {
+            audio.currentTime = audio.duration;
+          });
+
+          // Reset nút play khi nhạc kết thúc
+          audio.addEventListener("ended", () => {
+            playBtn.textContent = "▶";
+          });
+        </script>
+        </div>
+
+        <div class="social-links">
+          <a
+            href="https://www.facebook.com/memchoxd"
+            target="_blank"
+            class="social-link"
+          >
+            <i class="fab fa-facebook facebook"></i>
+            Facebook
+          </a>
+          <a href="https://t.me/mcxd_sp_xbot" target="_blank" class="social-link">
+            <i class="fab fa-telegram telegram"></i>
+            Telegram
+          </a>
+          <a
+            href="https://discord.com/users/memchoxd"
+            target="_blank"
+            class="social-link"
+          >
+            <i class="fab fa-discord discord"></i>
+            Discord: @memchoxd
+          </a>
+          <a href="https://github.com/memchoxd" target="_blank" class="social-link">
+            <i class="fab fa-github github"></i> GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="skills-section">
+        <h2 class="skills-title">Sở thích</h2>
+        <div class="hobbies">
+          <div class="hobby">
+            <i class="fas fa-gamepad"></i>
+            <h3>Chơi game</h3>
+            <p>Game yêu thích: Blue Archive, Minecraft, GD, Osu!</p>
+          </div>
+          <div class="hobby">
+            <i class="fas fa-utensils"></i>
+            <h3>Ăn uống</h3>
+            <p>Đồ ăn yêu thích: Full</p>
+          </div>
+          <div class="hobby">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>Sensei</h3>
+            <p>Dạy học sinh trong thời gian rảnh</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="animatedContent" class="about-content">
+        <!-- Nội dung sẽ được thêm bởi JavaScript -->
+      </div>
+
+      <div class="skills-section">
+        <h2 class="skills-title">Programming Skills</h2>
+
+        <div class="skill">
+          <div class="skill-header">
+            <div class="skill-icon java">
+              <i class="fab fa-java"></i>
+            </div>
+            <span class="skill-name">Java</span>
+            <span class="skill-percentage">10%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress java-bar"></div>
+          </div>
+          <p>Sương sương.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-header">
+            <div class="skill-icon python">
+              <i class="fab fa-python"></i>
+            </div>
+            <span class="skill-name">Python</span>
+            <span class="skill-percentage">85%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress python-bar"></div>
+          </div>
+          <p>Best.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-header">
+            <div class="skill-icon cpp">
+              <i class="fas fa-code"></i>
+            </div>
+            <span class="skill-name">C++</span>
+            <span class="skill-percentage">25%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress cpp-bar"></div>
+          </div>
+          <p>Ổn.</p>
+        </div>
+
+        <div class="skill">
+          <div class="skill-header">
+            <div class="skill-icon golang">
+              <i class="fab fa-golang"></i>
+            </div>
+            <span class="skill-name">Golang</span>
+            <span class="skill-percentage">10%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress golang-bar"></div>
+          </div>
+          <p>Mới bắt đầu học.</p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>© 2025 MemChoXD | Last updated: July 2025</p>
+      </div>
+    </div>
+  </body>
+</html>
